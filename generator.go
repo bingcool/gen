@@ -386,6 +386,11 @@ func (g *Generator) generateSingleQueryFile(data *genInfo) (err error) {
 	if structPkgPath == "" {
 		structPkgPath = g.modelPkgPath
 	}
+
+	if g.WithSplitModel {
+		structPkgPath = g.parseModelPkgPath(structPkgPath, data)
+	}
+
 	err = render(tmpl.Header, &buf, map[string]interface{}{
 		"Package":        g.queryPkgName,
 		"ImportPkgPaths": importList.Add(g.importPkgPaths...).Add(structPkgPath).Add(getImportPkgPaths(data)...).Paths(),
@@ -426,6 +431,20 @@ func (g *Generator) generateSingleQueryFile(data *genInfo) (err error) {
 
 	defer g.info(fmt.Sprintf("generate query file: %s%s%s.gen.go", g.OutPath, string(os.PathSeparator), data.FileName))
 	return g.output(fmt.Sprintf("%s%s%s.gen.go", g.OutPath, string(os.PathSeparator), data.FileName), buf.Bytes())
+}
+
+// parseModelPkgPath parse model package path
+func (g *Generator) parseModelPkgPath(structPkgPath string, data *genInfo) string {
+	structPkgPathArr := strings.Split(structPkgPath, "/")
+	modelDir := structPkgPathArr[len(structPkgPathArr)-1]
+	targetModel := "model"
+	if modelDir != targetModel {
+		structPkgPathArr[len(structPkgPathArr)-1] = targetModel
+		structPkgPath = strings.Join(structPkgPathArr, "/")
+		data.QueryStructMeta.StructInfo.Package = targetModel
+	}
+
+	return structPkgPath
 }
 
 // generateQueryUnitTestFile generate unit test file for query

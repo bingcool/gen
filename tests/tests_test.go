@@ -13,7 +13,8 @@ import (
 )
 
 const (
-	mysqlDSN     = "gen:gen@tcp(localhost:9910)/gen?charset=utf8&parseTime=True&loc=Local"
+	//mysqlDSN     = "gen:gen@tcp(localhost:9910)/gen?charset=utf8&parseTime=True&loc=Local"
+	mysqlDSN     = "root:root@galaxy1024@tcp(192.168.23.53:3306)/bingcool?charset=utf8mb4&parseTime=True&loc=Local"
 	postgresDSN  = "user=gen password=gen dbname=gen host=localhost port=9920 sslmode=disable TimeZone=Asia/Shanghai"
 	sqlserverDSN = "sqlserver://gen:LoremIpsum86@localhost:9930?database=gen"
 )
