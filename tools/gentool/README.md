@@ -5,7 +5,7 @@ Install GEN as a binary tool
 ## install
 
 ```shell
- go install gorm.io/gen/tools/gentool@latest
+ go install github.com/bingcool/gen/tools/gentool@latest
 ```
 
 ## usage
@@ -28,7 +28,9 @@ Install GEN as a binary tool
   -fieldWithTypeTag
         generate field with gorm column type tag
   -modelPkgName string
-        generated model code's package name
+        generated model code's package name  
+  -withSplitModel
+        generate model dir split   
   -outFile string
         query code file name, default: gen.go
   -outPath string
@@ -84,7 +86,13 @@ generate field with gorm column type tag
 
 defalut table name.
 
- generated model code's package name.
+generated model code's package name.
+
+#### withSplitModel
+
+defalut false.
+
+generated model dir split.
 
 #### outFile
 
@@ -126,4 +134,9 @@ detect integer field's unsigned type, adjust generated data type
 
 ```shell
 gentool -dsn "user:pwd@tcp(127.0.0.1:3306)/database?charset=utf8mb4&parseTime=True&loc=Local" -tables "orders,doctor"
+```
+
+
+```shell
+gentool -dsn "user:pwd@tcp(127.0.0.1:3306)/database?charset=utf8mb4&parseTime=True&loc=Local" -modelPkgName="model" -withSplitModel true
 ```

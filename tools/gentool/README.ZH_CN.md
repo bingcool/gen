@@ -7,7 +7,7 @@
 ## 安装
 
 ```shell
- go install gorm.io/gen/tools/gentool@latest
+ go install github.com/bingcool/gen/tools/gentool@latest
 ```
 
 ## 使用方式
@@ -87,6 +87,13 @@ default ""
 默认值是数据表名称。
 
  生成的model代码的包名称。
+
+
+#### withSplitModel
+
+默认model目录是否拆分，默认为 false.
+
+生成的模型包（modelPkgName）不是query最终引入包，需要新建model目录来组合生成的目录
 
 #### outFile
 

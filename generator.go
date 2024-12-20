@@ -19,12 +19,12 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 
-	"gorm.io/gen/helper"
-	"gorm.io/gen/internal/generate"
-	"gorm.io/gen/internal/model"
-	"gorm.io/gen/internal/parser"
-	tmpl "gorm.io/gen/internal/template"
-	"gorm.io/gen/internal/utils/pools"
+	"github.com/bingcool/gen/helper"
+	"github.com/bingcool/gen/internal/generate"
+	"github.com/bingcool/gen/internal/model"
+	"github.com/bingcool/gen/internal/parser"
+	tmpl "github.com/bingcool/gen/internal/template"
+	"github.com/bingcool/gen/internal/utils/pools"
 )
 
 // T generic type
@@ -433,20 +433,6 @@ func (g *Generator) generateSingleQueryFile(data *genInfo) (err error) {
 	return g.output(fmt.Sprintf("%s%s%s.gen.go", g.OutPath, string(os.PathSeparator), data.FileName), buf.Bytes())
 }
 
-// parseModelPkgPath parse model package path
-func (g *Generator) parseModelPkgPath(structPkgPath string, data *genInfo) string {
-	structPkgPathArr := strings.Split(structPkgPath, "/")
-	modelDir := structPkgPathArr[len(structPkgPathArr)-1]
-	targetModel := "model"
-	if modelDir != targetModel {
-		structPkgPathArr[len(structPkgPathArr)-1] = targetModel
-		structPkgPath = strings.Join(structPkgPathArr, "/")
-		data.QueryStructMeta.StructInfo.Package = targetModel
-	}
-
-	return structPkgPath
-}
-
 // generateQueryUnitTestFile generate unit test file for query
 func (g *Generator) generateQueryUnitTestFile(data *genInfo) (err error) {
 	var buf bytes.Buffer
@@ -625,4 +611,18 @@ func getImportPkgPaths(data *genInfo) []string {
 		importPkgPaths = append(importPkgPaths, importPath)
 	}
 	return importPkgPaths
+}
+
+// parseModelPkgPath parse model package path
+func (g *Generator) parseModelPkgPath(structPkgPath string, data *genInfo) string {
+	structPkgPathArr := strings.Split(structPkgPath, "/")
+	modelDir := structPkgPathArr[len(structPkgPathArr)-1]
+	targetModel := "model"
+	if modelDir != targetModel {
+		structPkgPathArr[len(structPkgPathArr)-1] = targetModel
+		structPkgPath = strings.Join(structPkgPathArr, "/")
+		data.QueryStructMeta.StructInfo.Package = targetModel
+	}
+
+	return structPkgPath
 }

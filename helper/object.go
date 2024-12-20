@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"gorm.io/gen/field"
+	"github.com/bingcool/gen/field"
 )
 
 // Object an object interface

@@ -1,4 +1,4 @@
-module gorm.io/gen
+module github.com/bingcool/gen
 
 go 1.18
 
@@ -20,3 +20,7 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 	gorm.io/driver/mysql v1.5.6 // indirect
 )
+
+//replace (
+//	github.com/bingcool => ./
+//)

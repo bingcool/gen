@@ -9,9 +9,9 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 
-	"gorm.io/gen/field"
-	"gorm.io/gen/internal/model"
-	"gorm.io/gen/internal/parser"
+	"github.com/bingcool/gen/field"
+	"github.com/bingcool/gen/internal/model"
+	"github.com/bingcool/gen/internal/parser"
 )
 
 type FieldParser interface {

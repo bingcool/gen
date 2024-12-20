@@ -3,9 +3,9 @@ package main
 import (
 	"strings"
 
-	"gorm.io/gen"
-	"gorm.io/gen/examples/conf"
-	"gorm.io/gen/examples/dal"
+	"github.com/bingcool/gen"
+	"github.com/bingcool/gen/examples/conf"
+	"github.com/bingcool/gen/examples/dal"
 	"gorm.io/gorm"
 )
 

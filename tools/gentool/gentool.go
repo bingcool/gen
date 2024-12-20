@@ -3,17 +3,17 @@ package main
 import (
 	"flag"
 	"fmt"
+	"gopkg.in/yaml.v3"
 	"log"
 	"os"
 	"strings"
 
-	"gopkg.in/yaml.v3"
+	"github.com/bingcool/gen"
 	"gorm.io/driver/clickhouse"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/driver/sqlserver"
-	"gorm.io/gen"
 	"gorm.io/gorm"
 )
 
@@ -40,6 +40,7 @@ type CmdParams struct {
 	OnlyModel         bool     `yaml:"onlyModel"`         // only generate model
 	OutPath           string   `yaml:"outPath"`           // specify a directory for output
 	OutFile           string   `yaml:"outFile"`           // query code file name, default: gen.go
+	WithSplitModel    bool     `yaml:"withSplitModel"`    // generate split models, default: false
 	WithUnitTest      bool     `yaml:"withUnitTest"`      // generate unit test for query code
 	ModelPkgName      string   `yaml:"modelPkgName"`      // generated model code's package name
 	FieldNullable     bool     `yaml:"fieldNullable"`     // generate with pointer when field is nullable
@@ -134,6 +135,13 @@ func parseCmdFromYaml(path string) *CmdParams {
 		log.Fatalf("parseCmdFromYaml fail %s", err.Error())
 		return nil
 	}
+
+	if yamlConfig.Database.WithSplitModel {
+		if yamlConfig.Database.ModelPkgName == "" {
+			log.Fatalln("When enable withSplitModel: true, ModelPkgName Option must be set")
+		}
+	}
+
 	return yamlConfig.Database
 }
 
@@ -147,6 +155,7 @@ func argParse() *CmdParams {
 	onlyModel := flag.Bool("onlyModel", false, "only generate models (without query file)")
 	outPath := flag.String("outPath", defaultQueryPath, "specify a directory for output")
 	outFile := flag.String("outFile", "", "query code file name, default: gen.go")
+	withSplitModel := flag.Bool("withSplitModel", false, "generate split models, default: false")
 	withUnitTest := flag.Bool("withUnitTest", false, "generate unit test for query code")
 	modelPkgName := flag.String("modelPkgName", "", "generated model code's package name")
 	fieldNullable := flag.Bool("fieldNullable", false, "generate with pointer when field is nullable")
@@ -180,6 +189,14 @@ func argParse() *CmdParams {
 	if *outFile != "" {
 		cmdParse.OutFile = *outFile
 	}
+
+	if *withSplitModel {
+		if *modelPkgName == "" {
+			log.Fatalln("When enable withSplitModel: true, ModelPkgName Option must be set")
+		}
+		cmdParse.WithSplitModel = *withSplitModel
+	}
+
 	if *withUnitTest {
 		cmdParse.WithUnitTest = *withUnitTest
 	}
@@ -216,10 +233,13 @@ func main() {
 		log.Fatalln("connect db server fail:", err)
 	}
 
+	fmt.Println(config.ModelPkgName, config.WithSplitModel)
+
 	g := gen.NewGenerator(gen.Config{
 		OutPath:           config.OutPath,
 		OutFile:           config.OutFile,
 		ModelPkgPath:      config.ModelPkgName,
+		WithSplitModel:    config.WithSplitModel,
 		WithUnitTest:      config.WithUnitTest,
 		FieldNullable:     config.FieldNullable,
 		FieldCoverable:    config.FieldCoverable,

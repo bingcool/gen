@@ -1,10 +1,10 @@
 package main
 
 import (
-	"gorm.io/gen"
-	"gorm.io/gen/examples/conf"
-	"gorm.io/gen/examples/dal"
-	"gorm.io/gen/examples/dal/model"
+	"github.com/bingcool/gen"
+	"github.com/bingcool/gen/examples/conf"
+	"github.com/bingcool/gen/examples/dal"
+	"github.com/bingcool/gen/examples/dal/model"
 	"gorm.io/gorm"
 )
 
