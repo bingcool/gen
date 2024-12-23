@@ -10,6 +10,7 @@ require (
 	gorm.io/driver/sqlite v1.5.5
 	gorm.io/driver/sqlserver v1.5.3
 	gorm.io/gorm v1.25.11
+	github.com/bingcool/gen v1.0.1
 )
 
 require (

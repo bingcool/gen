@@ -10,4 +10,5 @@ require (
 	gorm.io/gorm v1.25.11
 	gorm.io/hints v1.1.1 // indirect
 	gorm.io/plugin/dbresolver v1.5.0
+	github.com/bingcool/gen v1.0.1
 )
