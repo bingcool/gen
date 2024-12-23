@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"gorm.io/gen"
+	"github.com/bingcool/gen"
 )
 
 const (
@@ -20,11 +20,12 @@ const (
 var _ = os.Setenv("GORM_DIALECT", "mysql")
 
 var generateCase = map[string]func(dir string) *gen.Generator{
-	generateDirPrefix + "dal_1": func(dir string) *gen.Generator {
+	generateDirPrefix + "dal_2": func(dir string) *gen.Generator {
 		g := gen.NewGenerator(gen.Config{
-			OutPath:      dir + "/query",
-			Mode:         gen.WithDefaultQuery,
-			ModelPkgPath: "qmodel",
+			OutPath:        dir + "/query",
+			Mode:           gen.WithDefaultQuery,
+			ModelPkgPath:   "qmodel",
+			WithSplitModel: true,
 		})
 		g.UseDB(DB)
 		g.ApplyBasic(g.GenerateAllTable()...)
